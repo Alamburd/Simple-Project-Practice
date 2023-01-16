@@ -1,0 +1,51 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+
+struct Mortgage {
+    double loanAmount;
+    std::string company;
+    bool success;
+};
+
+std::vector<Mortgage> readCSV(const std::string& fileName) {
+    std::vector<Mortgage> mortgages;
+    std::ifstream file(fileName);
+
+    std::string line;
+    std::getline(file, line); // Skip the header row
+
+    while (std::getline(file, line)) {
+        std::stringstream lineStream(line);
+        std::string cell;
+
+        Mortgage mortgage;
+
+        std::getline(lineStream, cell, ',');
+        mortgage.loanAmount = std::stod(cell);
+
+        std::getline(lineStream, cell, ',');
+        mortgage.company = cell;
+
+        std::getline(lineStream, cell, ',');
+        mortgage.success = cell == "1";
+
+        mortgages.push_back(mortgage);
+    }
+
+    return mortgages;
+}
+
+int main() {
+    std::vector<Mortgage> mortgages = readCSV("mortgages.csv");
+
+    // Do something with the data
+    for (const Mortgage& mortgage : mortgages) {
+        std::cout << mortgage.loanAmount << ", "
+                  << mortgage.company << ", "
+                  << mortgage.success << std::endl;
+    }
+
+    return 0;
+}
