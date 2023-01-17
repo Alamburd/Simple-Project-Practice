@@ -1,0 +1,43 @@
+#include <iostream>
+#include <ctime>
+
+int main() {
+    int num_stocks;
+    double total_cost, average_price, tax_rate;
+    time_t purchase_date, current_date;
+    int num_held_over_year = 0;
+
+    std::cout << "Enter the number of stocks: ";
+    std::cin >> num_stocks;
+
+    std::cout << "Enter the total cost of buying the stocks: ";
+    std::cin >> total_cost;
+
+    average_price = total_cost / num_stocks;
+
+    std::cout << "Enter the tax rate (as a decimal): ";
+    std::cin >> tax_rate;
+
+    std::cout << "Enter the purchase date (YYYYMMDD): ";
+    std::cin >> purchase_date;
+
+    time(&current_date);
+
+    for(int i = 0; i < num_stocks; i++) {
+        if(difftime(current_date, purchase_date) >= 365*24*60*60) {
+            num_held_over_year++;
+        }
+    }
+
+    if(difftime(current_date, purchase_date) < 365*24*60*60) {
+        tax_rate = 0; // Tax-free period for one year
+    }
+
+    total_cost = total_cost - (total_cost * tax_rate);
+    average_price = total_cost / num_stocks;
+
+    std::cout << "The average price per stock after taxes is: " << average_price << std::endl;
+    std::cout << "Number of shares held for over one year: " << num_held_over_year << std::endl;
+
+    return 0;
+}
