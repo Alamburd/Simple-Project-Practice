@@ -16,3 +16,15 @@ int main() {
 
     return 0;
 }
+
+
+void action() {
+    std::cout << "This is the action that was triggered" << std::endl;
+}
+int main() {
+    int seconds;
+    std::cout << "Enter the number of seconds for the countdown: ";
+    std::cin >> seconds;
+
+    while (seconds >= 0) {
+        std::cout << seconds << std::endl;
